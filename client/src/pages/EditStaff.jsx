@@ -63,7 +63,7 @@ const EditStaff = () => {
   };
   return (
     <>
-      <Heading as="h1">Edit Staff</Heading>
+      <Heading as="h1">Edit Info Staff</Heading>
       <form onSubmit={onSubmit}>
         <Div>
           <Label>Ho Ten</Label>
