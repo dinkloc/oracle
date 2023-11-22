@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Heading from "../ui/Heading";
 import { useParams } from "react-router-dom";
@@ -13,15 +13,23 @@ const Label = styled.label`
 const EditStaff = () => {
   const { _id } = useParams();
   console.log(_id);
+  const [staff, setStaff] = useState({});
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [role, setRole] = useState("");
   const [salary, setSalary] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const setData = () => {
+    setName(() => staff.HO_TEN);
+    setDateOfBirth(() => staff.NGAY_SINH);
+    setRole(() => staff.VI_TRI);
+    setSalary(() => staff.MUC_LUONG);
+    setPhoneNumber(() => staff.SO_DIEN_THOAI);
+  };
   const onSubmit = async (event) => {
     event.preventDefault();
-    await fetch("http://localhost:3000/api/v1/staffs", {
-      method: "POST",
+    await fetch(`http://localhost:3000/api/v1/staffs/${_id}`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         HO_TEN: name,
@@ -33,6 +41,19 @@ const EditStaff = () => {
     });
     setNull();
   };
+  const fetchStaffData = () => {
+    fetch(`http://localhost:3000/api/v1/staffs/${_id}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setStaff(data.staff);
+        setData();
+      });
+  };
+  useEffect(() => {
+    fetchStaffData();
+  }, []);
   const setNull = () => {
     setName("");
     setDateOfBirth("");
@@ -80,7 +101,7 @@ const EditStaff = () => {
           />
         </Div>
         <Div>
-          <button>Add New</button>
+          <button>EDIT</button>
         </Div>
       </form>
     </>

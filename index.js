@@ -94,6 +94,20 @@ app.get("/api/v1/staffs", async (req, res) => {
   });
 });
 
+app.get("/api/v1/staffs/:MA_NHAN_VIEN", async (req, res) => {
+  const MA_NHAN_VIEN = req.params.MA_NHAN_VIEN;
+  const sql =
+    "SELECT Ma_Nhan_Vien, Ho_Ten, Ngay_Sinh, Vi_Tri, Muc_Luong, SO_DIEN_THOAI FROM NHANVIEN WHERE MA_NHAN_VIEN = :MA_NHAN_VIEN ";
+  const binds = { MA_NHAN_VIEN };
+  const data = await executeQuery(sql, binds);
+  const staff = data[0];
+  console.log(staff);
+  res.status(200).json({
+    status: "success",
+    staff,
+  });
+});
+
 app.post("/api/v1/staffs", async (req, res) => {
   const { HO_TEN, NGAY_SINH, VI_TRI, MUC_LUONG, SO_DIEN_THOAI } = req.body;
   console.log(HO_TEN, NGAY_SINH, VI_TRI, MUC_LUONG, SO_DIEN_THOAI);
@@ -119,6 +133,7 @@ app.post("/api/v1/staffs", async (req, res) => {
     res.status(500).json({ message: "Failed to create record" });
   }
 });
+
 app.patch("/api/v1/staffs/:MA_NHAN_VIEN", async (req, res) => {
   const MA_NHAN_VIEN = req.params.MA_NHAN_VIEN;
   const { HO_TEN, NGAY_SINH, VI_TRI, MUC_LUONG, SO_DIEN_THOAI } = req.body;
