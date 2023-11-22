@@ -65,9 +65,9 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/staff">
+          <StyledNavLink to="/staffs">
             <BsPeople />
-            <span>Staff</span>
+            <span>Staffs</span>
           </StyledNavLink>
         </li>
       </NavList>

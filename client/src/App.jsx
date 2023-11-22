@@ -5,9 +5,10 @@ import Dashboard from "./pages/Dashboard";
 import Animals from "./pages/Animals";
 import Staff from "./pages/Staffs";
 import Account from "./pages/Account";
-import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
+import AddNewStaff from "./pages/AddNewStaff";
+import EditStaff from "./pages/EditStaff";
 
 function App() {
   return (
@@ -19,11 +20,12 @@ function App() {
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="animals" element={<Animals />} />
-            <Route path="staff" element={<Staff />} />
+            <Route path="staffs" element={<Staff />} />
+            <Route path="staffs/add" element={<AddNewStaff />} />
+            <Route path="staffs/edit/:_id" element={<EditStaff />} />
             <Route path="account" element={<Account />} />
           </Route>
 
-          <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
