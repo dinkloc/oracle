@@ -44,7 +44,7 @@ function StaffRow({ staff }) {
     <>
       <TableRow role="row">
         <ID>{staff.MA_NHAN_VIEN}</ID>
-        <div>{staff.HO_TEN}</div>
+        <div>{staff.TEN_NHAN_VIEN}</div>
         <DateOfBirth>{staff.NGAY_SINH}</DateOfBirth>
         <Role>{staff.VI_TRI}</Role>
         <div>{staff.MUC_LUONG} VND</div>

@@ -1,8 +1,7 @@
+import { useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
-// import AnimalRow from "./AnimalRow";
-
-// import Spinner from "../../ui/Spinner";
-// import CabinRow from "./CabinRow";
+import AnimalRow from "./AnimalRow";
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -29,24 +28,32 @@ const TableHeader = styled.header`
 `;
 
 function AnimalTable() {
-  //   const { isLoading, cabins } = useCabins();
-
-  //   if (isLoading) return <Spinner />;
-
+  const [animals, setAnimals] = useState([]);
+  const fetchStaffData = () => {
+    fetch("http://localhost:3000/api/v1/animals")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setAnimals(data.data);
+      });
+  };
+  useEffect(() => {
+    fetchStaffData();
+  }, []);
   return (
     <Table role="table">
       <TableHeader role="row">
         <div>Id</div>
         <div>Name</div>
-        <div>Kind</div>
+        <div>Date Of Birth</div>
         <div>Health</div>
         <div>Desc</div>
-        <div>Food</div>
+        <div>Date</div>
       </TableHeader>
-      {/* {cabins.map((cabin) => (
-        <CabinRow cabin={cabin} key={cabin.id} />
-      ))} */}
-      {/* <AnimalRow /> */}
+      {animals.map((animal) => (
+        <AnimalRow animal={animal} key={animal.MA_DONG_VAT} />
+      ))}
     </Table>
   );
 }

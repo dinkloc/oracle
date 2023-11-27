@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 // Configure Oracle DB connection
 const dbConfig = {
-  user: "zoo_management",
+  user: "dinhloc",
   password: "DinhLoc0505",
   connectString: "localhost/orcl",
 };
@@ -74,9 +74,13 @@ app.post("/signup", async (req, res) => {
 
 // REST API
 app.get("/api/v1/animals", async (req, res) => {
-  const sql = "SELECT * FROM LoaiThucAn";
+  const sql =
+    "SELECT MA_DONG_VAT, TEN, NGAY_SINH, TRANG_THAI_SUC_KHOE, MO_TA, NGAY_VAO_CHUONG FROM DONG_VAT";
   const data = await executeQuery(sql);
-  res.json(data);
+  res.status(200).json({
+    status: "success",
+    data,
+  });
 });
 
 app.post("api/v1/animals", async (req, res) => {});
@@ -86,7 +90,7 @@ app.delete("api/v1/animals/:id", async (req, res) => {});
 // RESTful API Staff
 app.get("/api/v1/staffs", async (req, res) => {
   const sql =
-    "SELECT Ma_Nhan_Vien, Ho_Ten, Ngay_Sinh, Vi_Tri, Muc_Luong FROM NHANVIEN";
+    "SELECT Ma_Nhan_Vien, Ten_NHAN_VIEN, Ngay_Sinh, Vi_Tri, Muc_Luong FROM NHAN_VIEN";
   const data = await executeQuery(sql);
   res.status(200).json({
     status: "success",
@@ -97,7 +101,7 @@ app.get("/api/v1/staffs", async (req, res) => {
 app.get("/api/v1/staffs/:MA_NHAN_VIEN", async (req, res) => {
   const MA_NHAN_VIEN = req.params.MA_NHAN_VIEN;
   const sql =
-    "SELECT Ma_Nhan_Vien, Ho_Ten, Ngay_Sinh, Vi_Tri, Muc_Luong, SO_DIEN_THOAI FROM NHANVIEN WHERE MA_NHAN_VIEN = :MA_NHAN_VIEN ";
+    "SELECT Ma_Nhan_Vien, Ten_NHAN_VIEN, Ngay_Sinh, Vi_Tri, Muc_Luong, SO_DIEN_THOAI FROM NHAN_VIEN WHERE MA_NHAN_VIEN = :MA_NHAN_VIEN ";
   const binds = { MA_NHAN_VIEN };
   const data = await executeQuery(sql, binds);
   const staff = data[0];
@@ -116,7 +120,7 @@ app.post("/api/v1/staffs", async (req, res) => {
   }
   const MA_NHAN_VIEN = generateRandomId(6);
   const sql =
-    "INSERT INTO NHANVIEN (MA_NHAN_VIEN, HO_TEN, NGAY_SINH, VI_TRI, MUC_LUONG, SO_DIEN_THOAI ) VALUES (:MA_NHAN_VIEN, :HO_TEN, to_date (:NGAY_SINH, 'dd-mon-rrrr'), :VI_TRI, :MUC_LUONG, :SO_DIEN_THOAI)";
+    "INSERT INTO NHAN_VIEN (MA_NHAN_VIEN, TEN_NHAN_VIEN, NGAY_SINH, VI_TRI, MUC_LUONG, SO_DIEN_THOAI ) VALUES (:MA_NHAN_VIEN, :HO_TEN, to_date (:NGAY_SINH, 'dd-mon-rrrr'), :VI_TRI, :MUC_LUONG, :SO_DIEN_THOAI)";
   const binds = {
     MA_NHAN_VIEN,
     HO_TEN,
@@ -143,7 +147,7 @@ app.patch("/api/v1/staffs/:MA_NHAN_VIEN", async (req, res) => {
   }
 
   const sql =
-    "UPDATE NHANVIEN SET HO_TEN = :HO_TEN, NGAY_SINH = to_date (:NGAY_SINH, 'dd-mon-rrrr'), VI_TRI = :VI_TRI, MUC_LUONG = :MUC_LUONG, SO_DIEN_THOAI = :SO_DIEN_THOAI WHERE MA_NHAN_VIEN = :MA_NHAN_VIEN";
+    "UPDATE NHAN_VIEN SET TEN_NHAN_VIEN = :HO_TEN, NGAY_SINH = to_date (:NGAY_SINH, 'dd-mon-rrrr'), VI_TRI = :VI_TRI, MUC_LUONG = :MUC_LUONG, SO_DIEN_THOAI = :SO_DIEN_THOAI WHERE MA_NHAN_VIEN = :MA_NHAN_VIEN";
   const binds = {
     MA_NHAN_VIEN,
     HO_TEN,
@@ -164,7 +168,7 @@ app.patch("/api/v1/staffs/:MA_NHAN_VIEN", async (req, res) => {
 app.delete("/api/v1/staffs/:Ma_NHAN_VIEN", async (req, res) => {
   const MA_NHAN_VIEN = req.params.Ma_NHAN_VIEN;
   console.log(MA_NHAN_VIEN);
-  const sql = "DELETE FROM NHANVIEN WHERE MA_NHAN_VIEN = :MA_NHAN_VIEN";
+  const sql = "DELETE FROM NHAN_VIEN WHERE MA_NHAN_VIEN = :MA_NHAN_VIEN";
   const binds = {
     MA_NHAN_VIEN: MA_NHAN_VIEN,
   };
