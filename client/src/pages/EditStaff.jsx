@@ -101,7 +101,16 @@ const EditStaff = () => {
           />
         </Div>
         <Div>
-          <button>EDIT</button>
+          <button
+            style={{
+              padding: "8px",
+              border: "1px solid black",
+              backgroundColor: "blue",
+              color: "white",
+            }}
+          >
+            EDIT
+          </button>
         </Div>
       </form>
     </>

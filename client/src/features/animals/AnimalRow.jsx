@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { HiPencil, HiTrash } from "react-icons/hi2";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const TableRow = styled.div`
   display: grid;
@@ -33,6 +33,12 @@ const Role = styled.div`
 `;
 
 function AnimalRow({ animal }) {
+  const navigate = useNavigate();
+  const onDelete = async (id) => {
+    await fetch(`http://localhost:3000/api/v1/animals/${id}`, {
+      method: "DELETE",
+    });
+  };
   console.log(animal);
   return (
     <>
@@ -43,11 +49,23 @@ function AnimalRow({ animal }) {
         <Role>{animal.TRANG_THAI_SUC_KHOE}</Role>
         <div>{animal.MO_TA}</div>
         <div>
-          <button>
-            <HiPencil />
+          <button style={{ padding: "5px", backgroundColor: "white" }}>
+            <HiPencil
+              onClick={() => navigate(`edit/${animal.MA_DONG_VAT}`)}
+              style={{ color: "blue", fontSize: "20px" }}
+            />
           </button>
-          <button>
-            <HiTrash />
+          <button
+            style={{
+              padding: "5px",
+              backgroundColor: "white",
+              margin: "0 0 0 10px",
+            }}
+          >
+            <HiTrash
+              onClick={() => onDelete(animal.MA_DONG_VAT)}
+              style={{ color: "red", fontSize: "20px" }}
+            />
           </button>
         </div>
       </TableRow>

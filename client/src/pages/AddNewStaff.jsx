@@ -78,7 +78,16 @@ function AddNewStaff() {
           />
         </Div>
         <Div>
-          <button>Add New</button>
+          <button
+            style={{
+              padding: "8px",
+              border: "1px solid black",
+              backgroundColor: "blue",
+              color: "white",
+            }}
+          >
+            Add New
+          </button>
         </Div>
       </form>
     </>

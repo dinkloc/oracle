@@ -49,11 +49,21 @@ function StaffRow({ staff }) {
         <Role>{staff.VI_TRI}</Role>
         <div>{staff.MUC_LUONG} VND</div>
         <div>
-          <button>
-            <HiPencil onClick={() => navigate(`edit/${staff.MA_NHAN_VIEN}`)} />
+          <button style={{ padding: "5px", backgroundColor: "white" }}>
+            <HiPencil
+              style={{ color: "blue", fontSize: "20px" }}
+              onClick={() => navigate(`edit/${staff.MA_NHAN_VIEN}`)}
+            />
           </button>
-          <button>
+          <button
+            style={{
+              padding: "5px",
+              backgroundColor: "white",
+              margin: "0 0 0 10px",
+            }}
+          >
             <HiTrash
+              style={{ color: "red", fontSize: "20px" }}
               onClick={() => {
                 onDelete(staff.MA_NHAN_VIEN);
               }}

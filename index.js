@@ -49,29 +49,6 @@ function generateRandomId(length) {
 }
 // Authentication
 
-app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
-  const manhanvien = 1;
-  if (!email || !password) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
-  const sql =
-    "INSERT INTO NHANVIEN (MA_NHAN_VIEN, EMAIL, PASSWORD) VALUES (:manhanvien, :email, :password)";
-  const binds = {
-    manhanvien,
-    email,
-    password,
-  };
-  try {
-    await executeQuery(sql, binds);
-    res.status(201).json({ message: "SIGNUP SUCCESSFULLY" });
-  } catch (err) {
-    console.error(err);
-    console.log(err);
-    res.status(500).json({ message: "FAILED TO SIGNUP" });
-  }
-});
-
 // REST API
 app.get("/api/v1/animals", async (req, res) => {
   const sql =
@@ -83,9 +60,150 @@ app.get("/api/v1/animals", async (req, res) => {
   });
 });
 
-app.post("api/v1/animals", async (req, res) => {});
-app.put("api/v1/animals/:id", async (req, res) => {});
-app.delete("api/v1/animals/:id", async (req, res) => {});
+app.post("/api/v1/animals", async (req, res) => {
+  const MA_DONG_VAT = generateRandomId(6);
+  console.log(MA_DONG_VAT);
+  const {
+    TEN,
+    MA_LOAI,
+    NGAY_SINH,
+    GIOI_TINH,
+    NGUON_GOC,
+    TRANG_THAI_SUC_KHOE,
+    MO_TA,
+    MA_CHUONG,
+    NGAY_VAO_CHUONG,
+    MA_LOAI_THUC_AN,
+  } = req.body;
+  console.log(
+    TEN,
+    MA_LOAI,
+    NGAY_SINH,
+    GIOI_TINH,
+    NGUON_GOC,
+    TRANG_THAI_SUC_KHOE,
+    MO_TA,
+    MA_CHUONG,
+    NGAY_VAO_CHUONG,
+    MA_LOAI_THUC_AN
+  );
+  if (
+    !TEN ||
+    !NGAY_SINH ||
+    !GIOI_TINH ||
+    !NGUON_GOC ||
+    !TRANG_THAI_SUC_KHOE ||
+    !MO_TA ||
+    !MA_CHUONG ||
+    !NGAY_VAO_CHUONG ||
+    !MA_LOAI_THUC_AN
+  ) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  const sql =
+    "INSERT INTO DONG_VAT (MA_DONG_VAT, TEN ,MA_LOAI, NGAY_SINH, GIOI_TINH, NGUON_GOC, TRANG_THAI_SUC_KHOE, MO_TA, MA_CHUONG, NGAY_VAO_CHUONG,MA_LOAI_THUC_AN ) VALUES (:MA_DONG_VAT, :TEN, :MA_LOAI, to_date (:NGAY_SINH, 'dd-mon-rrrr'), :GIOI_TINH, :NGUON_GOC, :TRANG_THAI_SUC_KHOE, :MO_TA, :MA_CHUONG, to_date (:NGAY_VAO_CHUONG, 'dd-mon-rrrr'), :MA_LOAI_THUC_AN)  ";
+  const binds = {
+    MA_DONG_VAT,
+    TEN,
+    MA_LOAI,
+    NGAY_SINH,
+    GIOI_TINH,
+    NGUON_GOC,
+    TRANG_THAI_SUC_KHOE,
+    MO_TA,
+    MA_CHUONG,
+    NGAY_VAO_CHUONG,
+    MA_LOAI_THUC_AN,
+  };
+  try {
+    await executeQuery(sql, binds);
+    res.status(200).json({ message: "Record created successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to create record" });
+  }
+});
+app.patch("/api/v1/animals/:MA_DONG_VAT", async (req, res) => {
+  const MA_DONG_VAT = req.params.MA_DONG_VAT;
+  console.log(MA_DONG_VAT);
+  const {
+    TEN,
+    MA_LOAI,
+    NGAY_SINH,
+    GIOI_TINH,
+    NGUON_GOC,
+    TRANG_THAI_SUC_KHOE,
+    MO_TA,
+    MA_CHUONG,
+    NGAY_VAO_CHUONG,
+    MA_LOAI_THUC_AN,
+  } = req.body;
+  console.log(
+    TEN,
+    MA_LOAI,
+    NGAY_SINH,
+    GIOI_TINH,
+    NGUON_GOC,
+    TRANG_THAI_SUC_KHOE,
+    MO_TA,
+    MA_CHUONG,
+    NGAY_VAO_CHUONG,
+    MA_LOAI_THUC_AN
+  );
+  if (
+    !TEN ||
+    !NGAY_SINH ||
+    !GIOI_TINH ||
+    !NGUON_GOC ||
+    !TRANG_THAI_SUC_KHOE ||
+    !MO_TA ||
+    !MA_CHUONG ||
+    !NGAY_VAO_CHUONG ||
+    !MA_LOAI_THUC_AN
+  ) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  const sql =
+    "UPDATE DONG_VAT SET TEN = :TEN, MA_LOAI = :MA_LOAI, NGAY_SINH = to_date (:NGAY_SINH, 'dd-mon-rrrr'), GIOI_TINH = :GIOI_TINH, NGUON_GOC = :NGUON_GOC, TRANG_THAI_SUC_KHOE = :TRANG_THAI_SUC_KHOE, MO_TA = :MO_TA, MA_CHUONG =: MA_CHUONG, NGAY_VAO_CHUONG = to_date (:NGAY_VAO_CHUONG, 'dd-mon-rrrr'), MA_LOAI_THUC_AN = :MA_LOAI_THUC_AN WHERE MA_DONG_VAT = :MA_DONG_VAT  ";
+  const binds = {
+    MA_DONG_VAT,
+    TEN,
+    MA_LOAI,
+    NGAY_SINH,
+    GIOI_TINH,
+    NGUON_GOC,
+    TRANG_THAI_SUC_KHOE,
+    MO_TA,
+    MA_CHUONG,
+    NGAY_VAO_CHUONG,
+    MA_LOAI_THUC_AN,
+  };
+  try {
+    await executeQuery(sql, binds);
+    res.status(201).json({ message: "Record updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to create record" });
+  }
+});
+app.delete("/api/v1/animals/:MA_DONG_VAT", async (req, res) => {
+  const MA_DONG_VAT = req.params.MA_DONG_VAT;
+  console.log(MA_DONG_VAT);
+  const sql = "DELETE FROM DONG_VAT WHERE MA_DONG_VAT = :MA_DONG_VAT";
+  const binds = {
+    MA_DONG_VAT: MA_DONG_VAT,
+  };
+
+  try {
+    await executeQuery(sql, binds);
+    res.json({ message: "Record deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to delete record" });
+  }
+});
 
 // RESTful API Staff
 app.get("/api/v1/staffs", async (req, res) => {

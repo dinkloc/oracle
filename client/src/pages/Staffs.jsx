@@ -9,7 +9,16 @@ function Staff() {
       <Row type="horizontal">
         <Heading as="h1">Staffs</Heading>
         <NavLink to="/staffs/add">
-          <button>Add New</button>
+          <button
+            style={{
+              padding: "8px",
+              border: "1px solid black",
+              backgroundColor: "green",
+              color: "white",
+            }}
+          >
+            Add New Staff
+          </button>
         </NavLink>
       </Row>
       <Row>
